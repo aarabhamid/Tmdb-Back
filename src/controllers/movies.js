@@ -1,11 +1,55 @@
 import axios from "axios";
+import 'dotenv/config';
 
-const apiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYmFmODczYTc1MWIzN2RhODg2ZDhhODFlZTdiMTgyZSIsIm5iZiI6MTc0OTkyMTMxNi40ODQsInN1YiI6IjY4NGRhZTI0ZmM2MzAwZDdiMzNmZTM2MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ASWzVdZt1d6wQo4Gay1MPFuTlhfnAmVe8d1dXWBfwKU';
 
+const apiKey = process.env.apiKey;
+
+//Routes pour les films, séries et personnes tendances
+const getTrendingMovie = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/trending/movie/week?language=fr', {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+     res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getTrendingTv = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/trending/tv/week?language=fr', {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    // Filtre les données mais garde la clé "results"
+     res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getTrendingPerson = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=fr', {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//Routes pour les détails des films et séries
 const getMovie = async (req, res) => {
   try {
     const movieId = req.params.movieId;
-    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?language=fr&append_to_response=credits`, {
       headers: {
         'Authorization': `Bearer ${apiKey}`
       }
@@ -17,33 +61,113 @@ const getMovie = async (req, res) => {
   }
 };
 
+const getTvShows = async (req, res) => {
+  try {
+    const tvId = req.params.tvId;
+    const response = await axios.get(`https://api.themoviedb.org/3/tv/${tvId}?language=fr&append_to_response=credits`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    // Récupérer uniquement le vote_average
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getPerson = async (req, res) => {
+  try {
+    const personId = req.params.personId; 
+    const response = await axios.get(`https://api.themoviedb.org/3/person/${personId}?language=fr&append_to_response=credits`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//Routes pour les vidéos des films et séries
 const getMovieVideos = async (req, res) => {
   try {
     const movieId = req.params.movieId;
-    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/videos`, {
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/videos?language=fr`, {
       headers: {
         'Authorization': `Bearer ${apiKey}`
       }
     });
-    res.json(response.data);
+
+    // Filtrer les résultats pour ne garder que les "Trailer"
+    const trailers = response.data.results.filter(video => video.type === "Trailer");
+
+    res.json(trailers);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const getallMovie = async (req, res) => {
+const getTvShowsVideos = async (req, res) => {
   try {
-    
-    const response = await axios.get('https://api.themoviedb.org/3/trending/tv/day?language=fr-FR', {
+    const tvId = req.params.tvId;
+    const response = await axios.get(`https://api.themoviedb.org/3/tv/${tvId}/videos?language=fr`, {
       headers: {
         'Authorization': `Bearer ${apiKey}`
       }
     });
-  
+
+    // Filtrer les résultats pour ne garder que les "Trailer"
+    const trailers = response.data.results.filter(video => video.type === "Trailer");
+
+    res.json(trailers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//Routes pour les recherches de films, séries et personnes
+const searchMovies = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const response = await axios.get(`https://api.themoviedb.org/3/search/movie?language=fr&query=${query}`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-export { getMovie, getMovieVideos, getallMovie };
+const searchTvShows = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const response = await axios.get(`https://api.themoviedb.org/3/search/tv?language=fr&query=${query}`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const searchPerson = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const response = await axios.get(`https://api.themoviedb.org/3/search/person?language=fr&query=${query}`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson };
