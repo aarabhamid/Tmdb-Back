@@ -11,24 +11,17 @@ app.use(express.json());
 
 // Configuration CORS
 const allowedOrigins = [
-  'http://localhost:5173', // Pour le développement local (Vite)
-  'https://tmdb-front-aarabhamids-projects.vercel.app', // Remplace par l'URL de ton frontend déployé
+  'http://localhost:5173', // Pour le développement local
+  'https://tmdb-front-git-main-aarabhamids-projects.vercel.app', // URL exacte de ton frontend
 ];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Autoriser les origines listées ou les requêtes sans origine (comme les requêtes POST depuis un formulaire)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"], // Méthodes autorisées
-    credentials: true, // Si tu utilises des cookies/authentification
+    origin: allowedOrigins, // Autorise uniquement ces origines
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 
 // Routes
 app.use(router);
