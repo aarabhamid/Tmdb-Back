@@ -12,7 +12,7 @@ app.use(express.json());
 // Configuration CORS
 const allowedOrigins = [
   'http://localhost:5173', // Pour le développement local (Vite)
-  'https://tmdb-front-aarabhamids-projects.vercel.app/', // Remplace par l'URL de ton frontend déployé
+  'https://tmdb-front-aarabhamids-projects.vercel.app', // Remplace par l'URL de ton frontend déployé
 ];
 
 app.use(
