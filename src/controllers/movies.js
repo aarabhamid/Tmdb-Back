@@ -69,6 +69,11 @@ const getTvShows = async (req, res) => {
         'Authorization': `Bearer ${apiKey}`
       }
     });
+
+    // Tri des saisons par date de diffusion (du plus ancien au plus récent)
+    if (response.data.seasons) {
+      response.data.seasons.sort((a, b) => new Date(a.air_date) - new Date(b.air_date));
+    }
     // Récupérer uniquement le vote_average
     res.json(response.data);
   } catch (error) {
