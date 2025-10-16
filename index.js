@@ -11,13 +11,14 @@ app.use(express.json());
 
 // Configuration CORS
 const allowedOrigins = [
+  'http://localhost:3000', // Pour le développement local
   'http://localhost:5173', // Pour le développement local
   'https://tmdb-front-indol.vercel.app', // URL exacte de ton frontend
 ];
 
 app.use(
   cors({
-    origin: allowedOrigins, // Autorise uniquement ces origines
+    origin: allowedOrigins || /^(http:\/\/localhost:\d+|http:\/\/127\.0\.0\.1:\d+)$/.test(origin), // Autorise uniquement ces origines
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );

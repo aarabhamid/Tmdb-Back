@@ -175,4 +175,31 @@ const searchPerson = async (req, res) => {
   }
 };
 
-export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson };
+//Routes pour les films a venir 
+const getUpcomingMovies = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/movie/upcoming?language=fr', {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getUpcomingTvShows = async (req, res) => {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/tv/on_the_air?language=fr', {  
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, getUpcomingMovies, getUpcomingTvShows };
