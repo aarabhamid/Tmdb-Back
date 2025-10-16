@@ -24,6 +24,6 @@ router.get('/search/person', movieController.searchPerson);
 
 //Routes pour les films et séries à venir
 router.get('/upcoming/movies', movieController.getUpcomingMovies);
-router.get('/upcoming/tv', movieController.getUpcomingTvShows);
+router.get('/on-the-air/tv', movieController.getOnTheAirTvShows);
 
 export { router };

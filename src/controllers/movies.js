@@ -189,7 +189,7 @@ const getUpcomingMovies = async (req, res) => {
   }
 };
 
-const getUpcomingTvShows = async (req, res) => {
+const getOnTheAirTvShows = async (req, res) => {
   try {
     const response = await axios.get('https://api.themoviedb.org/3/tv/on_the_air?language=fr', {  
       headers: {
@@ -202,4 +202,4 @@ const getUpcomingTvShows = async (req, res) => {
   }
 };
 
-export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, getUpcomingMovies, getUpcomingTvShows };
+export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, getUpcomingMovies, getOnTheAirTvShows };
