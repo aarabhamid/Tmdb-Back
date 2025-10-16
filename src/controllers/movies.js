@@ -175,6 +175,20 @@ const searchPerson = async (req, res) => {
   }
 };
 
+//Routes pour les recherches de films, séries et personnes
+const searchMulti = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const response = await axios.get(`https://api.themoviedb.org/3/search/multi?language=fr&query=${query}`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 //Routes pour les films a venir 
 const getUpcomingMovies = async (req, res) => {
   try {
@@ -202,4 +216,4 @@ const getOnTheAirTvShows = async (req, res) => {
   }
 };
 
-export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, getUpcomingMovies, getOnTheAirTvShows };
+export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, getUpcomingMovies, getOnTheAirTvShows, searchMulti };
