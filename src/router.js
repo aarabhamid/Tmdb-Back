@@ -29,4 +29,7 @@ router.get('/on-the-air/tv', movieController.getOnTheAirTvShows);
 //Routes pour les recherches de films, séries et personnes
 router.get('/search', movieController.searchMulti);
 
+//Route pour les images des personnes
+router.get('/person/:personId/images', movieController.getPersonImages);
+
 export { router };
