@@ -189,6 +189,8 @@ const searchMulti = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
 //Routes pour les films a venir 
 const getUpcomingMovies = async (req, res) => {
   try {
@@ -216,6 +218,7 @@ const getOnTheAirTvShows = async (req, res) => {
   }
 };
 
+//Route pour les images des personnes
 const getPersonImages = async (req, res) => {
   try {
     const personId = req.params.personId; 
@@ -230,4 +233,20 @@ const getPersonImages = async (req, res) => {
   }
 };
 
-export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, getUpcomingMovies, getOnTheAirTvShows, searchMulti, getPersonImages };
+const getMovieImages = async (req, res) => {
+  try {
+    const movieId = req.params.movieId;
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/images?language=fr`, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, 
+  getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, 
+  getUpcomingMovies, getOnTheAirTvShows, searchMulti, getPersonImages, getMovieImages };
