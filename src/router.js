@@ -34,4 +34,7 @@ router.get('/search', movieController.searchMulti);
 router.get('/movies/:movieId/images', movieController.getMovieImages);
 router.get('/person/:personId/images', movieController.getPersonImages);
 
+//Routes pour les episodes des séries
+router.get('/tv/:tvId/season/:seasonNumber', movieController.TvShowSeasonEpisodes);
+
 export { router };

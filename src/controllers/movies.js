@@ -247,6 +247,25 @@ const getMovieImages = async (req, res) => {
   }
 };
 
-export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows, 
-  getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson, 
-  getUpcomingMovies, getOnTheAirTvShows, searchMulti, getPersonImages, getMovieImages };
+const TvShowSeasonEpisodes = async (req, res) => {
+  try {
+    const tvId = req.params.tvId;
+    const seasonNumber = req.params.seasonNumber; // Récupère le numéro de saison depuis les params
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?language=fr`,
+      {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      }
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export { getMovie, getMovieVideos, getTrendingPerson, getTrendingMovie, getTvShows,
+  getTrendingTv, getTvShowsVideos, getPerson, searchMovies, searchTvShows, searchPerson,
+  getUpcomingMovies, getOnTheAirTvShows, searchMulti, getPersonImages, getMovieImages, TvShowSeasonEpisodes };
