@@ -1,5 +1,4 @@
 
-```markdown
 # The Movie Tracker - Backend
 
 **Backend** pour l'application The Movie Tracker, qui sert d'intermédiaire entre le frontend et l'API TMDB.
