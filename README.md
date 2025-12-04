@@ -7,7 +7,6 @@
 
 - Proxy vers l'API TMDB
 - Gestion des requêtes (films, séries, détails, recherche)
-- (Optionnel) Gestion des utilisateurs et favoris
 
 ## 🛠 Technologies utilisées
 
